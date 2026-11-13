@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: payment-service
+  config:
+    import: classpath:application-demo-common.yaml
+
+clients:
+  fraud:
+    url: ${FRAUD_URL:http://fraud-check:8080}
+
+# No defaults on purpose: both come from the deployment (URL from env, key from
+# the payment-provider secret). Missing either one fails the startup.
+payment:
+  provider:
+    url: ${PAYMENT_PROVIDER_URL:}
+    api-key: ${PAYMENT_PROVIDER_API_KEY:}

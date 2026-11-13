@@ -1,0 +1,6 @@
+# Only the built jars go into the build context.
+*
+!orders-api/target/orders-api.jar
+!inventory-service/target/inventory-service.jar
+!payment-service/target/payment-service.jar
+!fraud-check/target/fraud-check.jar

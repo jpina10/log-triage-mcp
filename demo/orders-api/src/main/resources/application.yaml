@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: orders-api
+  config:
+    import: classpath:application-demo-common.yaml
+
+clients:
+  inventory:
+    url: ${INVENTORY_URL:http://inventory-service:8080}
+  payment:
+    url: ${PAYMENT_URL:http://payment-service:8080}
+
+demo:
+  http:
+    # Payments usually answer in well under a second; a slow provider breaks this.
+    read-timeout: 3s
