@@ -7,8 +7,12 @@ and defends against prompt injection.
 
 - [`DESIGN.md`](DESIGN.md): what it does, the decisions, the AI
   engineering approach and the milestone plan.
+- [`mcp-server/`](mcp-server/README.md): **M1**, the MCP server with four
+  read-only tools over `kubectl`, registered for Claude Code in
+  [`.mcp.json`](.mcp.json).
 - [`demo/`](demo/README.md): **M0**, a local kind cluster with four
   Spring Boot services and six injectable faults. It's the ground truth for
   the evals.
 
-Status: M0 done. The MCP server (M1) is next.
+Status: M0 and M1 done. Grouping, redaction and friendly output (M2) are
+next.

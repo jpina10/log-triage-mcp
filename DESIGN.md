@@ -157,8 +157,8 @@ service where it happened, or a mix.
 | Milestone | What | Status |
 |---|---|---|
 | M0 | Demo cluster: kind, 4 Spring Boot services, transaction-id propagation, 6 fault scenarios with ground truth | ✅ Done |
-| M1 | MCP server skeleton + kubectl adapter + `query_logs` + `pod_status` | Next |
-| M2 | Grouping/dedup + redaction + friendly output | |
+| M1 | MCP server (stdio) + kubectl adapter: `list_services`, `query_logs`, `find_by_transaction_id`, `pod_status` | ✅ Done |
+| M2 | Grouping/dedup + redaction + friendly output | Next |
 | M3 | Eval harness for L1 | |
 | M4 | L2 triage: service map, cross-service trace, classification | |
 | M5 | L2 evals + prompt-injection test suite → **v1** | |
@@ -177,3 +177,16 @@ service where it happened, or a mix.
   ERRORs in three services, and only the deepest one is the cause.
 - **ERROR ≠ incident.** Errors absorbed by a retry need a "transient"
   verdict, not an alarm.
+
+### What M1 taught us
+
+- **The first stack lines are the wrong ones.** Downstream errors show
+  framework frames first (`HttpServerErrorException.create`, …); the
+  application frame that matters (`FraudScoringService.score`) only
+  appears at the origin. M2 should keep application frames and `Caused by`
+  lines rather than the first N.
+- **Errors wrap errors.** Each hop embeds the previous service's error
+  body as escaped JSON, so one NPE becomes three increasingly nested
+  messages. Grouping must recognise them as one root cause.
+- **Volume grows fast.** About 120 lines in 10 minutes from light demo
+  traffic, mostly INFO. Tool defaults (WARN+, newest 50) already matter.

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "log-triage": {
+      "type": "stdio",
+      "command": "java",
+      "args": ["-jar", "mcp-server/target/log-triage-mcp.jar"],
+      "env": {
+        "LOGTRIAGE_CONTEXT": "kind-log-triage",
+        "LOGTRIAGE_NAMESPACE": "demo"
+      }
+    }
+  }
+}
